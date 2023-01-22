@@ -22,7 +22,6 @@ def resize_image(thumbnail_id):
         temp_image = Image.open(thumbnail.image)
         image_format = temp_image.format
         image_mime_type = temp_image.get_format_mimetype()
-        # temp_image = temp_image.convert('RGB')
         io_stream = BytesIO()
         temp_image_resized = temp_image.resize((100, 100))
         temp_image_resized.save(io_stream, image_format)

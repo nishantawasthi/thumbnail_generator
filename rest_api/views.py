@@ -1,10 +1,10 @@
 import traceback
 
 from django.utils.datastructures import MultiValueDictKeyError
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 from rest_api.errors import InvalidImageError
 from rest_api.models import Thumbnail
 from rest_api.serializers import ThumbnailSerializer
@@ -67,7 +67,7 @@ class ThumbnailGenerator(APIView):
                 raise InvalidImageError
             thumbnail = Thumbnail.objects.create(name=image.name, image=image)
             task = resize_image.delay(thumbnail.id)
-            thumbnail.task_id = task.id
+            thumbnail.task_id = task
             thumbnail.status = Thumbnail.STATUS_MAP_REV['PENDING']
             thumbnail.save()
             data = {'status': 'success', 'task_id': task.id,

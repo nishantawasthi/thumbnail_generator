@@ -1,3 +1,4 @@
+from io import BytesIO
 import traceback
 
 from PIL import Image
@@ -25,3 +26,22 @@ def check_image(file):
         print(err)
         traceback.print_exc()
         return False
+
+
+def generate_image():
+    """
+    Generates a in memory image for unit testing.
+
+    Returns:
+        image: Returns in memory image
+    """
+    try:
+        file = BytesIO()
+        image = Image.new('RGB', size=(4355, 5543), color=(155, 0, 0))
+        image.save(file, 'png')
+        file.name = 'test.png'
+        file.seek(0)
+        return file
+    except Exception as err:
+        print(err)
+        traceback.print_exc()
