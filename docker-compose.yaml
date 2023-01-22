@@ -16,6 +16,20 @@ services:
     depends_on:
       - db
   
+  # service to start celery worker
+  celery:
+    build: .
+    command: celery -A thumbnail_generator worker
+    image: thumbnail_generator
+    volumes:
+      - .:/thumbnail_generator
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - web
+  
   # service to start postgres database
   db:
     image: postgres:latest

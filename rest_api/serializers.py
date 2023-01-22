@@ -9,4 +9,4 @@ class ThumbnailSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Thumbnail
-        fields = '__all__'
+        fields = ['name', 'image']
