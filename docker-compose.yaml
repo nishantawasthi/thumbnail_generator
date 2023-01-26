@@ -34,3 +34,17 @@ services:
     volumes:
       - ./config/redis.conf:/redis.conf
     command: ["redis-server", "/redis.conf"]
+
+  # service to run test cases
+  test:
+    build: .
+    command: bash -c "python manage.py test"
+    image: thumbnail_generator
+    volumes:
+      - .:/thumbnail_generator
+    env_file:
+      - .env.docker
+    depends_on:
+      - web
+      - celery
+      - redis

@@ -29,18 +29,24 @@ class ThumbnailGenerator(APIView):
         """
         status_code = status.HTTP_200_OK
         try:
-            thumbnail = Thumbnail.objects.get(task_id=task_id)
-            data = {'status': 'success', 'task_id': task_id, 'task_status': Thumbnail.STATUS_MAP[thumbnail.status],
-                    'message': ''}
-            if Thumbnail.STATUS_MAP[thumbnail.status] == 'PENDING':
-                data['message'] = 'Your image is getting resized please try again after some time.'
-            elif Thumbnail.STATUS_MAP[thumbnail.status] == 'FAILED':
-                data['message'] = "Your image's resizing failed please reupload your image and try again."
+            thumbnail = Thumbnail.objects.filter(task_id=task_id)
+            if thumbnail.count():
+                thumbnail = thumbnail[0]
+                data = {'status': 'success', 'task_id': task_id, 'task_status': Thumbnail.STATUS_MAP[thumbnail.status],
+                        'message': ''}
+                if Thumbnail.STATUS_MAP[thumbnail.status] == 'PENDING':
+                    data['message'] = 'Your image is getting resized please try again after some time.'
+                elif Thumbnail.STATUS_MAP[thumbnail.status] == 'FAILED':
+                    data['message'] = "Your image's resizing failed please reupload your image and try again."
+                else:
+                    data['message'] = 'Your image is successfully resized. You can access and download it using the url given below.'
+                    serializer = ThumbnailSerializer(
+                        thumbnail, context={'request': request})
+                    data['image'] = serializer.data
             else:
-                data['message'] = 'Your image is successfully resized. You can access and download it using the url given below.'
-                serializer = ThumbnailSerializer(
-                    thumbnail, context={'request': request})
-                data['image'] = serializer.data
+                status_code = status.HTTP_404_NOT_FOUND
+                data = {'status': 'failed', 'task_id': task_id,
+                        'message': 'There is no task running or available with this task id please check and confirm your task id and then try again.'}
         except Exception as err:
             status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
             data = {'status': 'failed', 'error_code': 500,
