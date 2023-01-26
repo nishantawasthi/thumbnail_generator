@@ -44,6 +44,7 @@ services:
       - .:/thumbnail_generator
     env_file:
       - .env.docker
+    profiles: ["tests"]
     depends_on:
       - web
       - celery

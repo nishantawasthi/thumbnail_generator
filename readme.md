@@ -1,10 +1,16 @@
 # Thumbnail Generator
 
+**Name:- Nishant Awasthi**
+
+**Email:- nishantawasthi00@gmail.com**
+
 Thumbnail generator is JSON-based REST API service which resizes images into 100x100px thumbnails. It supports five type of images which are **PNG, JPEG, JPG, TIFF, BMP and GIF.** You can give your image as input to the api and can retrieve the converted thumbnail after the conversion is completed from the api. Below all the endpoints and how to use them is mentioned.
 
 ## How to run and test
 
-To run and test the service you just need to run a single command i.e. **`docker-compose up`**. All the required services and test cases will be automatically created and start running with this command and the API service will pe up and running on `http://localhost:8000/`. Then you can use and test the endpoints using postman or the curl examples given below.  Images for testing are also available in a folder named as **`test_images`** in the root directory
+To run the service you just need to run a single command i.e. **`docker-compose up`**. All the required services will be automatically created and start running with this command and the API service will be up and running on `http://localhost:8000/`. Then you can use and test the endpoints using postman or the curl examples given below.  Images for testing are also available in a folder named as **`test_images`** in the root directory.
+
+To run the test cases you can run command **`docker-compose run test`** and all test cases will run and show **`OK`** if all test passes else it will show **`FAILED.`**
 
 ##### Perquisites
 
@@ -111,5 +117,5 @@ In this service I have tried to handle most of the test case and edge case but t
 
 * Although I have tried to handle this case also but there can be some cases where user might upload corrupted or broken images so we have to handle this scenario and show user appropriate response.
 * If user uploads very large image there might be some complications.
-* If user uploads a image whose type is not supported in our service by changing it's extension we will need to handle this scenario also.
-* If user uploads a video by changing it's extension to image we will need to handle this scenario also.
+* If user uploads a image whose type is not supported in our service by changing it's extension to the supported one so we will need to handle this scenario also.
+* If user uploads a video by changing it's extension to supported image we will need to handle this scenario also.
